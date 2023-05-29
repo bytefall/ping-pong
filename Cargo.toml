@@ -1,0 +1,10 @@
+[workspace]
+members = [
+	"client",
+	"server",
+]
+
+[workspace.dependencies]
+thiserror = "1.0.40"
+tokio = { version = "1.28.1", features = ["full"] }
+wtransport = "0.1"
