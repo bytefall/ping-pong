@@ -7,4 +7,6 @@ members = [
 [workspace.dependencies]
 thiserror = "1.0.40"
 tokio = { version = "1.28.1", features = ["full"] }
+tracing = "0.1.37"
+tracing-subscriber = "0.3.17"
 wtransport = "0.1"
