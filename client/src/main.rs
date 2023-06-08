@@ -1,5 +1,3 @@
-use std::net::Ipv6Addr;
-use std::net::SocketAddr;
 use tracing::info;
 
 mod client;
@@ -15,7 +13,26 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_max_level(tracing::Level::INFO)
         .init();
 
-    let mut client = Client::new(SocketAddr::new(Ipv6Addr::LOCALHOST.into(), 4433));
+    let endp =
+        std::env::var("PING_PONG_ENDPOINT").expect("Unable to get env var PING_PONG_ENDPOINT");
+
+    let uri: http::Uri = endp.parse()?;
+
+    if uri.scheme() != Some(&http::uri::Scheme::HTTPS) {
+        Err("URI scheme must be HTTPS.")?;
+    }
+
+    let auth = uri.authority().ok_or("URI must have a host")?;
+    let port = auth.port_u16().unwrap_or(4433);
+
+    let addr = tokio::net::lookup_host((auth.host(), port))
+        .await?
+        .next()
+        .ok_or("DNS found no addresses")?;
+
+    info!("Connecting to {addr} ({uri})...");
+
+    let mut client = Client::new(addr);
     client.connect().await?;
 
     loop {

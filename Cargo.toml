@@ -5,6 +5,7 @@ members = [
 ]
 
 [workspace.dependencies]
+http = "0.2"
 thiserror = "1.0.40"
 tokio = { version = "1.28.1", features = ["full"] }
 tracing = "0.1.37"

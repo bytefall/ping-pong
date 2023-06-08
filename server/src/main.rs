@@ -1,4 +1,4 @@
-use std::net::Ipv6Addr;
+use std::net::Ipv4Addr;
 use std::net::SocketAddr;
 use tracing::{error, info, trace_span};
 
@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_max_level(tracing::Level::INFO)
         .init();
 
-    let mut server = Server::new(SocketAddr::new(Ipv6Addr::LOCALHOST.into(), 4433));
+    let mut server = Server::new(SocketAddr::new(Ipv4Addr::UNSPECIFIED.into(), 4433));
 
     loop {
         info!("Waiting for incoming connection...");

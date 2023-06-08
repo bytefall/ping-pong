@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  server:
+    image: ping-pong-server
+    restart: always
+    # ports:
+    #  - 4433:4433/udp
+
+  client:
+    image: ping-pong-client
+    restart: always
+    env_file:
+      - .client.env
+    depends_on:
+     - server
